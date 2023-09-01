@@ -226,5 +226,45 @@ public class PersistenceTest {
 
         emf.close();
     }
+
+    //UPDATE는 어떻게 처리하는지
+    //TRANSACTION START -> READ -> THIS>LOADEDSTATE 최초상태저장 -> FLUSH -> 현재 상태 ENTITY INSTANCE DB로부터 불러와서 저장함 -> 두개를 비교 -> 변경이 되었네? 감지함 -> 쓰기 저장소 ACTION QUEUE에 UPDATE문 저장 -> SET으로 ENTITY객체에 변경 값을 할당 -> COMMIT 실행으로 변경된 객체를 변경함
+    //TRANSACTION이 필수적으로 진행 되어야 위와 같은 과정이 진행됨.
+    @Test
+    @DisplayName("변경 감지 확인")
+    void test8() {
+        EntityTransaction et = em.getTransaction();
+
+        et.begin();
+
+        try {
+            System.out.println("변경할 데이터를 조회합니다.");
+            Memo memo = em.find(Memo.class, 4);
+            System.out.println("memo.getId() = " + memo.getId());
+            System.out.println("memo.getUsername() = " + memo.getUsername());
+            System.out.println("memo.getContents() = " + memo.getContents());
+
+            System.out.println("\n수정을 진행합니다.");
+            memo.setUsername("Update");
+            memo.setContents("변경 감지 확인");
+
+            System.out.println("트랜잭션 commit 전");
+            et.commit();
+            System.out.println("트랜잭션 commit 후");
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            et.rollback();
+        } finally {
+            em.close();
+        }
+
+        emf.close();
+    }
+
+    //영속성 persistenceContext의 기능
+    //1. 1차 캐시 기능 맵자료구조로 되어있고 효율적으로 관리되고 있다.
+    //2. 쓰기저장지연소 Action Queue 트랜잭션처럼 쿼리를 담고 있다가 Commit하면서 한번에 반영을 해줌
+    //3. 변경 감지 기능. 최초상태를 저장하고 현재 상태를 불러와서 비교(Flush시점에 비교)하여 변경점이 있으면 Action Queue에 Update를 저장하고 Commit 후 반영해줌
 }
 
