@@ -1,4 +1,4 @@
-# Spring MVC Practice first!
+# JPA Practice first!
 [Java] Spring에 JPA로 DB를 다루기 위한 첫 연습장입니다!
 
 ## 🖥️ 저장소 소개
