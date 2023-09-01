@@ -36,6 +36,7 @@ public class EntityTest {
             memo.setContents("영속성 컨텍스트와 트랜잭션 이해하기");
 
             em.persist(memo); // EntityManager 사용하여 memo 객체를 영속성 컨텍스트에 저장합니다.
+            //1차 캐시 저장.
 
             et.commit(); // 오류가 발생하지 않고 정상적으로 수행되었다면 commit 을 호출합니다.
             // commit 이 호출되면서 DB 에 수행한 DB 작업들이 반영됩니다.
