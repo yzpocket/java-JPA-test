@@ -14,7 +14,7 @@
 ## ⚙️ 개발 환경
 - **MainLanguage** : `Java - JDK 17`
 - **IDE** : `IntelliJ IDEA Ultimate`
-- **Framework** : `SpringBoot`
+- **Framework** : `Java`, `JPA`
 - **Database** : `MySQL`
 - **SERVER** : `None`
 - **TEST** : `JVM Runtime env`
